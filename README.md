@@ -4,14 +4,14 @@
 This game is made for the Work Integrated Learning (WIL) module for 3rd year of the Vega BCIS Game Design and Development degree in Johannessburg, South Africa.
 
 ## About
-In this game, players get to play as spin doctors covering up for politician blunders. It is a party game similar to Cards Against Humanity or Jack Box Quiplash.
-This version is for PC. 
+In this game, players get to play as spin doctors covering up for politician blunders. It is a party game similar to Cards Against Humanity or Jack Box Quiplash.\
+This version is for PC. \
 We will try to implement multiplayer for multiple devices. But if we have difficulties with that, this game will just have pass-and-play style multiplayer.
 
 ## Team Members
-Kesia Segar - Team Leader
-Daniel Glanz - Programmer
-Keira Pienaar - Artist
+Kesia Segar - Team Leader\
+Daniel Glanz - Programmer\
+Keira Pienaar - Artist\
 Keegan Naidoo - Assistant programmer
 
 ## Dependencies
