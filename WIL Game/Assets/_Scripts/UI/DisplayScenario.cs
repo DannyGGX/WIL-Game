@@ -1,6 +1,9 @@
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Used on every scenario card UI object.
+/// </summary>
 public class DisplayScenario : MonoBehaviour
 {
     [SerializeField] private GameObject scenarioCard;

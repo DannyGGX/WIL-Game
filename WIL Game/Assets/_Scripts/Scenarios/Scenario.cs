@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public struct Scenario
 {
     public int Id { get; set; }

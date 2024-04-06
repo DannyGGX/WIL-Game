@@ -1,9 +1,6 @@
 using System;
 using System.Linq;
 
-/// <summary>
-/// Get random scenario from the scenarios
-/// </summary>
 public class DrawScenarioCard
 {
     private Scenarios scenarios;

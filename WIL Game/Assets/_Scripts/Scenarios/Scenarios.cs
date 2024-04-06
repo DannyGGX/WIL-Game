@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// A separated data container for scenarios. This class is also used for basic handling and sorting of scenario data.
+/// </summary>
 public class Scenarios
 {
     public Dictionary<int, Scenario> scenarios { get; private set; } = new(); // <id, scenario>
