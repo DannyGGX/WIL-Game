@@ -53,4 +53,11 @@ public class Scenarios
     {
         return scenariosSortedByDifficulties[difficulty];
     }
+    
+    public Scenario GetRandomScenarioOfDifficulty(int difficultyLevel)
+    {
+        var scenarioIdsInDifficultyLevel = GetScenarioIdsByDifficulty(difficultyLevel);
+        int random = UnityEngine.Random.Range(0, scenarioIdsInDifficultyLevel.Count);
+        return GetScenario(scenarioIdsInDifficultyLevel.ElementAt(random));
+    }
 }
