@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -6,29 +7,49 @@ using System.Linq;
 /// </summary>
 public class DrawScenarioCard
 {
-    private Scenarios scenarios;
+    private Stack<int> scenarioIdsStack;
     
     public DrawScenarioCard(Scenarios scenarios)
     {
-        this.scenarios = scenarios;
-    }
-    
-    public Scenario GetRandomScenario()
-    {
-        int random = UnityEngine.Random.Range(0, scenarios.GetScenariosCount());
-        return scenarios.GetScenario(random);
-    }
-    
-    public Scenario GetSpecificScenario(int id)
-    {
-        return scenarios.GetScenario(id);
+        scenarioIdsStack = CreateRandomisedStackOfIds(ExtractIds(scenarios));
     }
 
-    public Scenario GetRandomScenarioOfDifficulty(int difficultyLevel)
+    private HashSet<int> ExtractIds(Scenarios scenarios)
     {
-        var scenarioIdsInDifficultyLevel = scenarios.GetScenarioIdsByDifficulty(difficultyLevel);
-        int random = UnityEngine.Random.Range(0, scenarioIdsInDifficultyLevel.Count);
-        return scenarios.GetScenario(scenarioIdsInDifficultyLevel.ElementAt(random));
+        HashSet<int> scenarioIds = new HashSet<int>();
+        for (int i = 0; i < scenarios.GetScenariosCount(); i++)
+        {
+            scenarioIds.Add(i);
+        }
+        return scenarioIds;
+    }
+
+    private Stack<int> CreateRandomisedStackOfIds(HashSet<int> scenarioIds)
+    {
+        scenarioIdsStack = new Stack<int>();
+        while (scenarioIds.Count > 0)
+        {
+            int random = UnityEngine.Random.Range(0, scenarioIds.Count);
+            scenarioIdsStack.Push(scenarioIds.ElementAt(random));
+            scenarioIds.Remove(scenarioIds.ElementAt(random));
+        }
+        return scenarioIdsStack;
+    }
+
+    /// <returns> scenario id</returns>
+    public int DrawCard()
+    {
+        return scenarioIdsStack.Pop();
+    }
+
+    public bool HasCards()
+    {
+        return scenarioIdsStack.Count > 0;
+    }
+
+    public int GetCardCount()
+    {
+        return scenarioIdsStack.Count;
     }
     
 }
