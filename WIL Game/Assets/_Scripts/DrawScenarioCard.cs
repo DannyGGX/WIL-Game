@@ -4,49 +4,52 @@ using System.Linq;
 
 public class DrawScenarioCard
 {
-    private Stack<int> scenarioIdsStack;
+    private Stack<int> _scenarioIdsStack;
     
     public DrawScenarioCard(Scenarios scenarios)
     {
-        scenarioIdsStack = CreateRandomisedStackOfIds(ExtractIds(scenarios));
+        CreateRandomisedStackOfIds(ExtractIds(scenarios));
     }
 
     private HashSet<int> ExtractIds(Scenarios scenarios)
     {
         HashSet<int> scenarioIds = new HashSet<int>();
-        for (int i = 0; i < scenarios.GetScenariosCount(); i++)
+        foreach (var scenario in scenarios.scenarios)
         {
-            scenarioIds.Add(i);
+            scenarioIds.Add(scenario.Key);
         }
         return scenarioIds;
     }
 
-    private Stack<int> CreateRandomisedStackOfIds(HashSet<int> scenarioIds)
+    private void CreateRandomisedStackOfIds(HashSet<int> scenarioIds)
     {
-        scenarioIdsStack = new Stack<int>();
+        _scenarioIdsStack = new Stack<int>();
         while (scenarioIds.Count > 0)
         {
             int random = UnityEngine.Random.Range(0, scenarioIds.Count);
-            scenarioIdsStack.Push(scenarioIds.ElementAt(random));
+            _scenarioIdsStack.Push(scenarioIds.ElementAt(random));
             scenarioIds.Remove(scenarioIds.ElementAt(random));
         }
-        return scenarioIdsStack;
     }
 
     /// <returns> scenario id</returns>
     public int DrawCard()
     {
-        return scenarioIdsStack.Pop();
-    }
-
-    public bool HasCards()
-    {
-        return scenarioIdsStack.Count > 0;
+        return _scenarioIdsStack.Pop();
     }
 
     public int GetCardCount()
     {
-        return scenarioIdsStack.Count;
+        return _scenarioIdsStack.Count;
+    }
+    public bool IsDrawCardsEmpty()
+    {
+        return _scenarioIdsStack.Count == 0;
+    }
+    
+    public void RefillDrawCards(Scenarios scenarios)
+    {
+        CreateRandomisedStackOfIds(ExtractIds(scenarios));
     }
     
 }
