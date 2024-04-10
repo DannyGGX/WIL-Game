@@ -8,18 +8,20 @@ using UnityEngine;
 /// https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
 /// works with csv reader to load scenario data
 /// </summary>
-public class LoadExcel : MonoBehaviour
+public class LoadExcel
 {
-    public ScenarioItems blankItem;
-    public List<ScenarioItems> scenarioDatabase = new List<ScenarioItems>();
+    private Scenario blankItem;
+    private Scenarios scenarios;
+
+    public Scenarios GetScenariosReference()
+    {
+        return scenarios;
+    }
 
     public void LoadScenarioData()
     {
-        //clear scenario database
-        scenarioDatabase.Clear();
         
-        //read CSV files
-        List<Dictionary<string, object>> data = CSVreader.Read("scenarioDatabase");
+        List<Dictionary<string, object>> data = CSVreader.Read("Scenario_Database");
         for (var i = 0; i < data.Count; i++)
         {
             int id = int.Parse(data[i]["id"].ToString(), System.Globalization.NumberStyles.Integer);
@@ -34,15 +36,8 @@ public class LoadExcel : MonoBehaviour
     
     void AddItem(int id, string scenario, int difficulty, int cleanScore, int controversialScore)
     {
-        ScenarioItems tempItem = new ScenarioItems(blankItem);
-
-        tempItem.id = id;
-        tempItem.scenario = scenario;
-        tempItem.difficulty = difficulty;
-        tempItem.cleanScore = cleanScore;
-        tempItem.controversialScore = controversialScore;
+        Scenario tempItem = new Scenario(id, scenario, difficulty, cleanScore, controversialScore);
         
-        scenarioDatabase.Add(tempItem);
-
+        scenarios.AddScenario(tempItem);
     }
 }

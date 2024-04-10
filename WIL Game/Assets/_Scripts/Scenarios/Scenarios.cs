@@ -11,9 +11,9 @@ public class Scenarios
     
     public Dictionary<int, HashSet<int>> scenariosSortedByDifficulties = new(); // <difficulty, ids>
 
-    public void AddScenario(int id, Scenario scenario)
+    public void AddScenario(Scenario scenario)
     {
-        scenarios.Add(id, scenario);
+        scenarios.Add(scenario.Id, scenario);
     }
 
     public Scenario GetScenario(int id)

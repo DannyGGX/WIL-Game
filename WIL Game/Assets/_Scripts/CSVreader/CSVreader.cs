@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// CODE taken from Youtube video: https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
 /// </summary>
-public class CSVreader
+public static class CSVreader
 {
     static string _splitRe = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
     static string _lineSplitRe = @"\r\n|\n\r|\n|\r";
