@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+/// <summary>
+/// https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
+/// works with csv reader to load scenario data
+/// </summary>
 public class LoadExcel : MonoBehaviour
 {
     public ScenarioItems blankItem;
