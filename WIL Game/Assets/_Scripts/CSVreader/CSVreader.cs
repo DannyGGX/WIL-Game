@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
  
+/// <summary>
+/// CODE taken from Youtube video: https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
+/// </summary>
 public class CSVreader
 {
     static string _splitRe = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
