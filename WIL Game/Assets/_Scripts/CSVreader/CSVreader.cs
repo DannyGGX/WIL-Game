@@ -3,50 +3,25 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
  
 /// <summary>
-/// CODE taken from Youtube video: https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
+/// CODE taken from Youtube video: https://youtu.be/tI9NEm02EuE?si=tKBhlBl82kW_2aA1 
 /// </summary>
 public static class CSVreader
 {
-    static string _splitRe = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-    static string _lineSplitRe = @"\r\n|\n\r|\n|\r";
-    static char[] _trimChars = { '\"' };
- 
-    public static List<Dictionary<string, object>> Read(string file)
+    private static TextAsset _textAssetData;
+    private static string[] separator = new string[] { ";", "\n" };
+
+    public static int NumberOfColumns { get; private set; }
+    public static List<string[]> ReadCsv(string fileName)
     {
-        var list = new List<Dictionary<string, object>>();
-        TextAsset data = Resources.Load(file) as TextAsset;
- 
-        var lines = Regex.Split(data.text, _lineSplitRe);
- 
-        if (lines.Length <= 1) return list;
- 
-        var header = Regex.Split(lines[0], _splitRe);
-        for (var i = 1; i < lines.Length; i++)
+        _textAssetData = Resources.Load<TextAsset>(fileName);
+        
+        List<string[]> result = new List<string[]>();
+        string[] row = _textAssetData.text.Split("\r\n", System.StringSplitOptions.None);
+        for (int i = 0; i < row.Length; i++)
         {
- 
-            var values = Regex.Split(lines[i], _splitRe);
-            if (values.Length == 0 || values[0] == "") continue;
- 
-            var entry = new Dictionary<string, object>();
-            for (var j = 0; j < header.Length && j < values.Length; j++)
-            {
-                string value = values[j];
-                value = value.TrimStart(_trimChars).TrimEnd(_trimChars).Replace("\\", "");
-                object finalvalue = value;
-                int n;
-                float f;
-                if (int.TryParse(value, out n))
-                {
-                    finalvalue = n;
-                }
-                else if (float.TryParse(value, out f))
-                {
-                    finalvalue = f;
-                }
-                entry[header[j]] = finalvalue;
-            }
-            list.Add(entry);
+            result.Add(Regex.Split(row[i], ";"));
         }
-        return list;
+        return result;
     }
+    
 }

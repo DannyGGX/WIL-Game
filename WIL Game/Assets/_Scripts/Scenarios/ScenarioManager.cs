@@ -7,7 +7,7 @@ public class ScenarioManager : NetworkSingleton<ScenarioManager>
     private Scenarios scenarios;
     private DrawScenarioCard cardDrawer;
     private Scenario currentScenario;
-    private LoadExcel loadExcel;
+    private ReadScenarioData _readScenarioData;
     
     public override void OnNetworkSpawn()
     {
@@ -25,14 +25,15 @@ public class ScenarioManager : NetworkSingleton<ScenarioManager>
     // Get the scenarios from the CSV reader
     private void GetScenariosFromCSVReader()
     {
-        loadExcel = new LoadExcel();
-        loadExcel.LoadScenarioData();
-        scenarios = loadExcel.GetScenariosReference();
+        _readScenarioData = new ReadScenarioData();
+        _readScenarioData.LoadScenarioData();
+        scenarios = _readScenarioData.GetScenariosReference();
         
         //debug log all scenarios
         foreach (var scenario in scenarios.scenarios)
         {
-            Debug.Log(scenario.Value.ToString());
+            // Debug each individual variable in scenario in the same debug message
+            Debug.Log(scenario.Value.Id + " " + scenario.Value.Text + " " + scenario.Value.Difficulty + " " + scenario.Value.ControversialPoints + " " + scenario.Value.CleanPoints);
         }
     }
     
@@ -41,7 +42,5 @@ public class ScenarioManager : NetworkSingleton<ScenarioManager>
         int cardId = cardDrawer.DrawCard();
         currentScenario = scenarios.GetScenario(cardId);
     }
-    
-    
     
 }
