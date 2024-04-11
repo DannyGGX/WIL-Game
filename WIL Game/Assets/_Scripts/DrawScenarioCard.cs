@@ -14,7 +14,7 @@ public class DrawScenarioCard
     private HashSet<int> ExtractIds(Scenarios scenarios)
     {
         HashSet<int> scenarioIds = new HashSet<int>();
-        foreach (var scenario in scenarios.scenarios)
+        foreach (var scenario in scenarios.ScenariosCollection)
         {
             scenarioIds.Add(scenario.Key);
         }

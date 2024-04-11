@@ -7,56 +7,51 @@ using System.Linq;
 /// </summary>
 public class Scenarios
 {
-    public Dictionary<int, Scenario> scenarios { get; private set; } = new(); // <id, scenario>
+    public Dictionary<int, Scenario> ScenariosCollection { get; private set; } = new(); // <id, scenario>
     
-    public Dictionary<int, HashSet<int>> scenariosSortedByDifficulties = new(); // <difficulty, ids>
+    public Dictionary<int, HashSet<int>> ScenariosSortedByDifficulties = new(); // <difficulty, ids>
 
     public void AddScenario(Scenario scenario)
     {
-        scenarios.Add(scenario.Id, scenario);
+        ScenariosCollection.Add(scenario.Id, scenario);
     }
 
     public Scenario GetScenario(int id)
     {
-        return scenarios[id];
+        return ScenariosCollection[id];
     }
     
     public int GetScenariosCount()
     {
-        return scenarios.Count;
+        return ScenariosCollection.Count;
     }
 
     public int GetScenariosCountByDifficulty(int difficulty)
     {
-        return scenariosSortedByDifficulties[difficulty].Count;
+        return ScenariosSortedByDifficulties[difficulty].Count;
     }
     public void SortScenariosByDifficulty()
     {
-        scenariosSortedByDifficulties.Clear();
+        ScenariosSortedByDifficulties.Clear();
         
-        foreach (var scenario in scenarios)
+        foreach (var scenario in ScenariosCollection)
         {
             var currentScenarioDifficulty = scenario.Value.Difficulty;
-            if (scenariosSortedByDifficulties.ContainsKey(currentScenarioDifficulty) == false)
+            if (ScenariosSortedByDifficulties.ContainsKey(currentScenarioDifficulty) == false)
             {
-                scenariosSortedByDifficulties.Add(currentScenarioDifficulty, new HashSet<int>());
+                ScenariosSortedByDifficulties.Add(currentScenarioDifficulty, new HashSet<int>());
             }
-            scenariosSortedByDifficulties[currentScenarioDifficulty].Add(scenario.Key);
+            ScenariosSortedByDifficulties[currentScenarioDifficulty].Add(scenario.Key);
         }
         
-        scenariosSortedByDifficulties = scenariosSortedByDifficulties
+        ScenariosSortedByDifficulties = ScenariosSortedByDifficulties
             .OrderBy(x => x.Key)
             .ToDictionary(x => x.Key, x => x.Value);
     }
     
-    public HashSet<int> GetScenarioIdsByDifficulty(int difficulty)
-    {
-        return scenariosSortedByDifficulties[difficulty];
-    }
-    
     public Scenario GetRandomScenarioOfDifficulty(int difficultyLevel)
     {
-        var scenarioIdsInDifficultyLevel = GetScenarioIdsByDifficulty(difficultyLevel);
+        var scenarioIdsInDifficultyLevel = ScenariosSortedByDifficulties[difficultyLevel];
         int random = UnityEngine.Random.Range(0, scenarioIdsInDifficultyLevel.Count);
         return GetScenario(scenarioIdsInDifficultyLevel.ElementAt(random));
     }

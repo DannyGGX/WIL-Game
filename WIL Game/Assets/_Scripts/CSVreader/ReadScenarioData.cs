@@ -6,60 +6,54 @@ using UnityEngine;
 
 
 /// <summary>
-/// https://www.youtube.com/watch?v=C37C2yCUlCM&amp;t=448s
 /// works with csv reader to load scenario data
 /// </summary>
 public class ReadScenarioData
 {
-    private Scenario blankItem;
-    private Scenarios scenarios;
-    private const string fileName = "Scenario_Database";
+    private Scenarios _scenarios;
+    private const string FileName = "Scenario_Database";
 
-    public Scenarios GetScenariosReference()
+    public Scenarios GetScenarioData()
     {
-        return scenarios;
-    }
-
-    public void LoadScenarioData()
-    {
-        var rawData = CSVreader.ReadCsv(fileName);
-        scenarios = new Scenarios();
+        var rawData = CsvReader.ReadCsv(FileName);
+        _scenarios = new Scenarios();
         
         // for loop of raw data starting from index 1 to skip the header
-        for (int i = 1; i < rawData.Count - 1; i++)
+        for (int row = 1; row < rawData.Count; row++)
         {
-            AddItem(int.Parse(rawData[i][1])
-                , rawData[i][2]
-                , int.Parse(rawData[i][3])
-                , int.Parse(rawData[i][4])
-                , int.Parse(rawData[i][5]));
+            if (rawData[row][0] != "y") continue; // load scenarios that are marked as 'y' to be included
+            AddItem(int.Parse(rawData[row][1])
+                , rawData[row][2]
+                , int.Parse(rawData[row][3])
+                , int.Parse(rawData[row][4])
+                , int.Parse(rawData[row][5]));
         }
-
+        return _scenarios;
     }
     
-    void AddItem(int id, string scenario, int difficulty, int cleanScore, int controversialScore)
+    private void AddItem(int id, string scenario, int difficulty, int cleanScore, int controversialScore)
     {
-        Scenario tempItem = new Scenario(id, FormatScenarioText(scenario), difficulty, cleanScore, controversialScore);
+        Scenario tempItem = new Scenario(id, FormatCsvString(scenario), difficulty, cleanScore, controversialScore);
         
-        scenarios.AddScenario(tempItem);
+        _scenarios.AddScenario(tempItem);
         
     }
 
-    private string FormatScenarioText(string scenarioText)
+    /// <summary>
+    /// Removes extra quotes from text from the CSV reader.
+    /// This occurs if there are text fields in the Excel file that have quotes in them
+    /// </summary>
+    private static string FormatCsvString(string csvString)
     {
-        if(scenarioText[0] == '\"' && scenarioText[^1] == '\"') // if the text starts and ends with quotes
-        {
-            // remove the quotes at the start and end
-            scenarioText = scenarioText.Remove(0, 1);
-            scenarioText = scenarioText.Remove(scenarioText.Length - 1, 1);
+        if (csvString[0] != '\"' || csvString[^1] != '\"') return csvString; // if the text starts and ends with quotes, continue
+        
+        csvString = csvString.Remove(0, 1);
+        csvString = csvString.Remove(csvString.Length - 1, 1);
             
-            // remove the extra quotes in the middle
-            // loop twice
-            for (int i = 0; i < 2; i++)
-            {
-                scenarioText = scenarioText.Replace("\"\"", "\"");
-            }
+        for (int i = 0; i < 2; i++)
+        {
+            csvString = csvString.Replace("\"\"", "\"");
         }
-        return scenarioText;
+        return csvString;
     }
 }
